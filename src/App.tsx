@@ -4,6 +4,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import ForestWorld from "./pages/ForestWorld";
+import OceanWorld from "./pages/OceanWorld";
+import DesertWorld from "./pages/DesertWorld";
+import TreeMatchGame from "./games/forest/TreeMatchGame";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -16,7 +20,10 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/forest" element={<ForestWorld />} />
+          <Route path="/ocean" element={<OceanWorld />} />
+          <Route path="/desert" element={<DesertWorld />} />
+          <Route path="/forest/tree-match" element={<TreeMatchGame />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
