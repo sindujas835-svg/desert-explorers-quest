@@ -33,7 +33,7 @@ const worlds = [
     cardClass: "world-card-desert",
     path: "/desert",
     ageRange: "Ages 6–18",
-    gameCount: 20,
+    gameCount: 50,
   },
 ];
 
