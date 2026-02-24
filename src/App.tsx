@@ -8,6 +8,7 @@ import ForestWorld from "./pages/ForestWorld";
 import OceanWorld from "./pages/OceanWorld";
 import DesertWorld from "./pages/DesertWorld";
 import TreeMatchGame from "./games/forest/TreeMatchGame";
+import GamePage from "./games/GamePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/ocean" element={<OceanWorld />} />
           <Route path="/desert" element={<DesertWorld />} />
           <Route path="/forest/tree-match" element={<TreeMatchGame />} />
+          <Route path="/:world/:gameId" element={<GamePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
