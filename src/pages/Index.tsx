@@ -37,6 +37,85 @@ const worlds = [
   },
 ];
 
+const IndexBackground = () => {
+  const [particles, setParticles] = useState<Array<{ id: number; left: string; delay: string; size: string; color: string }>>([]);
+
+  useEffect(() => {
+    const colors = [
+      "hsl(145 63% 50%)",
+      "hsl(200 75% 55%)",
+      "hsl(38 92% 60%)",
+      "hsl(145 50% 65%)",
+      "hsl(195 60% 65%)",
+      "hsl(42 90% 70%)",
+    ];
+    const p = Array.from({ length: 18 }, (_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 6}s`,
+      size: `${3 + Math.random() * 7}px`,
+      color: colors[i % colors.length],
+    }));
+    setParticles(p);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 -z-10 overflow-hidden">
+      {/* Multi-world gradient */}
+      <div className="absolute inset-0" style={{
+        background: "linear-gradient(135deg, hsl(145 40% 85%) 0%, hsl(195 50% 82%) 25%, hsl(200 60% 80%) 50%, hsl(38 40% 88%) 75%, hsl(145 35% 87%) 100%)"
+      }} />
+
+      {/* Subtle animated orbs */}
+      <div className="absolute w-[500px] h-[500px] rounded-full opacity-[0.08] blur-3xl" style={{
+        background: "radial-gradient(circle, hsl(145 63% 45%), transparent)",
+        top: "-10%", left: "-5%",
+        animation: "float-up 12s ease-in-out infinite",
+      }} />
+      <div className="absolute w-[400px] h-[400px] rounded-full opacity-[0.08] blur-3xl" style={{
+        background: "radial-gradient(circle, hsl(200 75% 50%), transparent)",
+        top: "30%", right: "-8%",
+        animation: "float-up 15s ease-in-out infinite 3s",
+      }} />
+      <div className="absolute w-[450px] h-[450px] rounded-full opacity-[0.06] blur-3xl" style={{
+        background: "radial-gradient(circle, hsl(38 92% 55%), transparent)",
+        bottom: "-10%", left: "30%",
+        animation: "float-up 10s ease-in-out infinite 5s",
+      }} />
+
+      {/* Nature icons from all worlds */}
+      <div className="absolute bottom-0 left-0 right-0 flex justify-around items-end">
+        {["🌲", "🐠", "🌵", "🌳", "🐙", "🏜️", "🌴", "🐚"].map((e, i) => (
+          <div key={i} className="tree-sway" style={{ animationDelay: `${i * 0.4}s` }}>
+            <div className="text-3xl md:text-5xl opacity-[0.12] select-none">{e}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Sparkle particles from all worlds */}
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="floating-particle"
+          style={{
+            left: p.left,
+            bottom: `${10 + Math.random() * 40}%`,
+            animationDelay: p.delay,
+            width: p.size,
+            height: p.size,
+            background: p.color,
+          }}
+        />
+      ))}
+
+      {/* Flying creatures */}
+      <div className="absolute top-[12%] left-[5%] animate-[float-up_9s_ease-in-out_infinite] text-xl opacity-[0.15]">🕊️</div>
+      <div className="absolute top-[8%] right-[20%] animate-[float-up_11s_ease-in-out_infinite_2s] text-lg opacity-[0.12]">🦋</div>
+      <div className="absolute top-[20%] left-[60%] animate-[float-up_13s_ease-in-out_infinite_4s] text-lg opacity-[0.1]">🦅</div>
+    </div>
+  );
+};
+
 const Index = () => {
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
@@ -47,15 +126,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated background */}
-      <div className="fixed inset-0 -z-10" style={{
-        background: "linear-gradient(160deg, hsl(195 80% 80%) 0%, hsl(145 40% 85%) 40%, hsl(45 30% 93%) 100%)"
-      }} />
-
-      {/* Floating decorations */}
-      <div className="fixed top-10 left-10 text-5xl opacity-20 tree-sway select-none">🌿</div>
-      <div className="fixed top-20 right-16 text-4xl opacity-15 tree-sway select-none" style={{ animationDelay: "1s" }}>🦋</div>
-      <div className="fixed bottom-20 left-20 text-6xl opacity-15 tree-sway select-none" style={{ animationDelay: "2s" }}>🌻</div>
+      <IndexBackground />
 
       <div className="container mx-auto px-4 py-12 md:py-20">
         {/* Hero */}
