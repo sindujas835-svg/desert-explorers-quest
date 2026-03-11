@@ -38,22 +38,21 @@ const worlds = [
 ];
 
 const IndexBackground = () => {
-  const [particles, setParticles] = useState<Array<{ id: number; left: string; delay: string; size: string; color: string }>>([]);
+  const [particles, setParticles] = useState<Array<{ id: number; left: string; top: string; delay: string; duration: string; size: string; color: string }>>([]);
 
   useEffect(() => {
     const colors = [
-      "hsl(145 63% 50%)",
-      "hsl(200 75% 55%)",
-      "hsl(38 92% 60%)",
-      "hsl(145 50% 65%)",
-      "hsl(195 60% 65%)",
-      "hsl(42 90% 70%)",
+      "hsl(145 63% 55%)", "hsl(200 75% 60%)", "hsl(38 92% 65%)",
+      "hsl(145 50% 70%)", "hsl(195 60% 70%)", "hsl(42 90% 75%)",
+      "hsl(160 60% 50%)", "hsl(220 70% 55%)", "hsl(30 80% 60%)",
     ];
-    const p = Array.from({ length: 18 }, (_, i) => ({
+    const p = Array.from({ length: 30 }, (_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
-      delay: `${Math.random() * 6}s`,
-      size: `${3 + Math.random() * 7}px`,
+      top: `${10 + Math.random() * 80}%`,
+      delay: `${Math.random() * 8}s`,
+      duration: `${4 + Math.random() * 6}s`,
+      size: `${3 + Math.random() * 8}px`,
       color: colors[i % colors.length],
     }));
     setParticles(p);
@@ -61,46 +60,39 @@ const IndexBackground = () => {
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
-      {/* Multi-world gradient */}
-      <div className="absolute inset-0" style={{
-        background: "linear-gradient(135deg, hsl(145 40% 85%) 0%, hsl(195 50% 82%) 25%, hsl(200 60% 80%) 50%, hsl(38 40% 88%) 75%, hsl(145 35% 87%) 100%)"
-      }} />
+      {/* Animated multi-world gradient */}
+      <div className="absolute inset-0 eco-gradient-bg" />
 
-      {/* Subtle animated orbs */}
-      <div className="absolute w-[500px] h-[500px] rounded-full opacity-[0.08] blur-3xl" style={{
-        background: "radial-gradient(circle, hsl(145 63% 45%), transparent)",
-        top: "-10%", left: "-5%",
-        animation: "float-up 12s ease-in-out infinite",
-      }} />
-      <div className="absolute w-[400px] h-[400px] rounded-full opacity-[0.08] blur-3xl" style={{
-        background: "radial-gradient(circle, hsl(200 75% 50%), transparent)",
-        top: "30%", right: "-8%",
-        animation: "float-up 15s ease-in-out infinite 3s",
-      }} />
-      <div className="absolute w-[450px] h-[450px] rounded-full opacity-[0.06] blur-3xl" style={{
-        background: "radial-gradient(circle, hsl(38 92% 55%), transparent)",
-        bottom: "-10%", left: "30%",
-        animation: "float-up 10s ease-in-out infinite 5s",
-      }} />
+      {/* Large pulsing orbs */}
+      <div className="absolute w-[600px] h-[600px] rounded-full opacity-[0.1] blur-3xl eco-orb-forest" style={{ top: "-15%", left: "-10%" }} />
+      <div className="absolute w-[500px] h-[500px] rounded-full opacity-[0.1] blur-3xl eco-orb-ocean" style={{ top: "25%", right: "-12%" }} />
+      <div className="absolute w-[550px] h-[550px] rounded-full opacity-[0.08] blur-3xl eco-orb-desert" style={{ bottom: "-15%", left: "25%" }} />
+      <div className="absolute w-[300px] h-[300px] rounded-full opacity-[0.06] blur-2xl eco-orb-accent" style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />
 
-      {/* Nature icons from all worlds */}
-      <div className="absolute bottom-0 left-0 right-0 flex justify-around items-end">
-        {["🌲", "🐠", "🌵", "🌳", "🐙", "🏜️", "🌴", "🐚"].map((e, i) => (
-          <div key={i} className="tree-sway" style={{ animationDelay: `${i * 0.4}s` }}>
-            <div className="text-3xl md:text-5xl opacity-[0.12] select-none">{e}</div>
+      {/* Animated wave layers */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 eco-wave eco-wave-1" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 eco-wave eco-wave-2" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 eco-wave eco-wave-3" />
+
+      {/* Nature icons carousel */}
+      <div className="absolute bottom-2 left-0 right-0 flex justify-around items-end">
+        {["🌲", "🐠", "🌵", "🌳", "🐙", "🏜️", "🌴", "🐚", "🦋", "🌊"].map((e, i) => (
+          <div key={i} className="tree-sway" style={{ animationDelay: `${i * 0.35}s` }}>
+            <div className="text-2xl md:text-4xl opacity-[0.15] select-none">{e}</div>
           </div>
         ))}
       </div>
 
-      {/* Sparkle particles from all worlds */}
+      {/* Sparkle particles */}
       {particles.map((p) => (
         <div
           key={p.id}
-          className="floating-particle"
+          className="eco-sparkle"
           style={{
             left: p.left,
-            bottom: `${10 + Math.random() * 40}%`,
+            top: p.top,
             animationDelay: p.delay,
+            animationDuration: p.duration,
             width: p.size,
             height: p.size,
             background: p.color,
@@ -108,10 +100,11 @@ const IndexBackground = () => {
         />
       ))}
 
-      {/* Flying creatures */}
-      <div className="absolute top-[12%] left-[5%] animate-[float-up_9s_ease-in-out_infinite] text-xl opacity-[0.15]">🕊️</div>
-      <div className="absolute top-[8%] right-[20%] animate-[float-up_11s_ease-in-out_infinite_2s] text-lg opacity-[0.12]">🦋</div>
-      <div className="absolute top-[20%] left-[60%] animate-[float-up_13s_ease-in-out_infinite_4s] text-lg opacity-[0.1]">🦅</div>
+      {/* Floating creatures */}
+      <div className="absolute eco-creature" style={{ top: "10%", left: "5%", animationDuration: "18s" }}>🕊️</div>
+      <div className="absolute eco-creature" style={{ top: "6%", right: "15%", animationDuration: "22s", animationDelay: "3s" }}>🦋</div>
+      <div className="absolute eco-creature" style={{ top: "18%", left: "55%", animationDuration: "25s", animationDelay: "6s" }}>🦅</div>
+      <div className="absolute eco-creature" style={{ top: "30%", right: "30%", animationDuration: "20s", animationDelay: "9s" }}>🐬</div>
     </div>
   );
 };
